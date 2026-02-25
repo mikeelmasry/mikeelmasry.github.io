@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mike Elmasry — Solutions Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #faf9f7;
+            --accent: #2d5a8e;
+            --accent-light: #e8f0fa;
+            --accent-warm: #c9a961;
+            --muted: #6b7280;
+            --border: #e5e5e5;
+            --card-bg: #ffffff;
+            --section-alt: #f4f3f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.7;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 249, 247, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--ink);
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 10rem 2rem 6rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .accent-text {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #1e4570;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 90, 142, 0.25);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--border);
+            color: var(--ink);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--muted);
+            max-width: 600px;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        /* ===== ABOUT ===== */
+        #about {
+            background: var(--section-alt);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 1.2rem;
+            color: #374151;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        /* ===== EXPERIENCE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-warm));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.35rem;
+            top: 0.35rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--paper);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-role {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-company {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-desc {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        /* ===== SKILLS ===== */
+        #skills {
+            background: var(--section-alt);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .skill-group {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .skill-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .skill-group h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .skill-list li {
+            font-size: 0.82rem;
+            color: var(--muted);
+            background: var(--section-alt);
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+        }
+
+        /* ===== PROJECTS ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+
+        .project-header {
+            padding: 2rem 2rem 0;
+        }
+
+        .project-type {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-warm);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-body {
+            padding: 0.5rem 2rem 2rem;
+        }
+
+        .project-body p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .project-tech span {
+            font-size: 0.75rem;
+            background: var(--section-alt);
+            color: var(--muted);
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        /* ===== CONTACT ===== */
+        #contact {
+            background: var(--ink);
+            color: #fff;
+        }
+
+        #contact .section-label {
+            color: var(--accent-warm);
+        }
+
+        #contact .section-title {
+            color: #fff;
+        }
+
+        #contact .section-desc {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .contact-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-3px);
+        }
+
+        .contact-card a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .contact-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--ink);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: var(--paper);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero {
+                padding: 8rem 1.5rem 4rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">Mike Elmasry</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+    <div class="hero-badge">Open to Opportunities</div>
+    <h1>Solutions Engineer<br><span class="accent-text">&amp; Technical Advisor</span></h1>
+    <p class="hero-subtitle">
+        20+ years of enterprise IT experience turning complex technical challenges into clear,
+        scalable solutions. From cloud architecture to iOS apps, I bridge the gap between
+        what's technically possible and what actually moves the business forward.
+    </p>
+    <div class="hero-cta">
+        <a href="mailto:melmasry@gmail.com" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Get in Touch
+        </a>
+        <a href="https://linkedin.com/in/michaelelmasry" target="_blank" class="btn btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+        </a>
+    </div>
+</header>
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+    <div class="section-inner">
+        <div class="about-grid">
+            <div class="about-text fade-in">
+                <div class="section-label">About Me</div>
+                <h2 class="section-title">Enterprise expertise meets builder mentality.</h2>
+                <p>
+                    I'm a Senior Solutions Engineer with deep roots in the Microsoft ecosystem, including Azure, M365, and Intune.
+                    Over the past 17 years at Chevron Corporation, I've progressed through six distinct roles, from Infrastructure
+                    Systems Analyst to Solutions Engineer, serving as a technical advisor to stakeholders ranging from plant
+                    managers to C-level executives.
+                </p>
+                <p>
+                    My sweet spot is translating complex technical capabilities into business outcomes. Whether I'm architecting
+                    enterprise mobility solutions, deploying intrinsically safe devices in hazardous refinery environments, or
+                    building a zero trust security architecture, I focus on what actually solves the problem at hand.
+                </p>
+                <p>
+                    Outside of work, I'm a hands-on builder. I develop iOS applications, maintain a Kubernetes homelab with full
+                    monitoring infrastructure, and have built AI-powered automation tools using Claude and OpenAI APIs.
+                    That combination of enterprise experience and personal technical depth gives me a perspective that's hard to replicate.
+                </p>
+            </div>
+            <div class="about-stats fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Years in Enterprise IT</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">Years at Chevron</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Distinct Roles Held</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Global Facilities Supported</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== EXPERIENCE ========== -->
+<section id="experience">
+    <div class="section-inner">
+        <div class="section-label fade-in">Career</div>
+        <h2 class="section-title fade-in">Professional Experience</h2>
+        <p class="section-desc fade-in">A progression from infrastructure operations to strategic technical advisory, all within one of the world's largest energy companies.</p>
+
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Jan 2022 — Aug 2025</div>
+                <div class="timeline-role">Solutions Engineer</div>
+                <div class="timeline-company">Chevron Corporation</div>
+                <div class="timeline-desc">
+                    Served as a customer-facing Solutions Architect, partnering with internal business units to design and deliver secure, scalable cloud and endpoint solutions. Led technical demonstrations and PoCs for emerging technologies including Microsoft 365 Copilot and Copilot Studio. Architected enterprise mobility solutions using Intune and deployed intrinsically safe devices for hazardous refinery environments. Integrated Microsoft Copilot with HR internal documents, reducing support ticket volume by 30%.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Azure</span>
+                    <span class="tag">M365</span>
+                    <span class="tag">Intune</span>
+                    <span class="tag">Copilot</span>
+                    <span class="tag">Zero Trust</span>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Jan 2020 — Jan 2022</div>
+                <div class="timeline-role">Cloud Engineer II</div>
+                <div class="timeline-company">Chevron Corporation</div>
+                <div class="timeline-desc">
+                    Led cloud migration initiatives to Microsoft Azure, delivering measurable cost savings and performance improvements. Built migration assessments and roadmaps for multiple business units, coordinating across technical and business stakeholders. Introduced automation and Infrastructure as Code concepts while supporting Agile SAFe delivery methodology.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Azure</span>
+                    <span class="tag">Cloud Migration</span>
+                    <span class="tag">IaC</span>
+                    <span class="tag">SAFe Agile</span>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Jan 2015 — Jan 2020</div>
+                <div class="timeline-role">IT Support Engineer</div>
+                <div class="timeline-company">Chevron Corporation</div>
+                <div class="timeline-desc">
+                    Built a cybersecurity lab for penetration testing of IIoT devices, enhancing security posture for industrial systems. Led HoloLens demonstrations and PoC deployments, enabling remote assistance and reducing travel costs for field operations. Designed secure network architectures for industrial and HVAC control systems.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Cybersecurity</span>
+                    <span class="tag">IIoT</span>
+                    <span class="tag">HoloLens</span>
+                    <span class="tag">OT Security</span>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">Nov 2008 — Jan 2015</div>
+                <div class="timeline-role">Infrastructure Systems Analyst</div>
+                <div class="timeline-company">Chevron Corporation</div>
+                <div class="timeline-desc">
+                    Sole administrator for global CCTV video security infrastructure across 50+ facilities worldwide. Scaled server footprint from 50 to 300+ servers to meet expanding security and compliance requirements.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Infrastructure</span>
+                    <span class="tag">Global Ops</span>
+                    <span class="tag">Security Systems</span>
+                    <span class="tag">Windows Server</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills">
+    <div class="section-inner">
+        <div class="section-label fade-in">Expertise</div>
+        <h2 class="section-title fade-in">Technical Skills</h2>
+        <p class="section-desc fade-in">A broad and deep skill set built across enterprise operations, cloud architecture, and hands-on development.</p>
+
+        <div class="skills-grid">
+            <div class="skill-group fade-in">
+                <div class="skill-icon">☁️</div>
+                <h3>Cloud & Infrastructure</h3>
+                <ul class="skill-list">
+                    <li>Microsoft Azure</li>
+                    <li>Microsoft 365</li>
+                    <li>Azure DevOps</li>
+                    <li>ARM Templates / IaC</li>
+                    <li>Active Directory</li>
+                    <li>Windows Server</li>
+                    <li>SQL Server</li>
+                </ul>
+            </div>
+
+            <div class="skill-group fade-in">
+                <div class="skill-icon">🔒</div>
+                <h3>Security & Compliance</h3>
+                <ul class="skill-list">
+                    <li>Zero Trust Architecture</li>
+                    <li>Microsoft Intune</li>
+                    <li>Conditional Access</li>
+                    <li>Endpoint Management</li>
+                    <li>Intrinsically Safe Devices</li>
+                    <li>OT/ICS Security</li>
+                </ul>
+            </div>
+
+            <div class="skill-group fade-in">
+                <div class="skill-icon">📱</div>
+                <h3>Development</h3>
+                <ul class="skill-list">
+                    <li>Swift / SwiftUI</li>
+                    <li>Python</li>
+                    <li>iOS Development</li>
+                    <li>SwiftData</li>
+                    <li>REST APIs</li>
+                    <li>Git / GitHub</li>
+                </ul>
+            </div>
+
+            <div class="skill-group fade-in">
+                <div class="skill-icon">🤖</div>
+                <h3>AI & Automation</h3>
+                <ul class="skill-list">
+                    <li>Claude API</li>
+                    <li>OpenAI API</li>
+                    <li>Microsoft Copilot</li>
+                    <li>Copilot Studio</li>
+                    <li>Prompt Engineering</li>
+                    <li>LLM Integration</li>
+                </ul>
+            </div>
+
+            <div class="skill-group fade-in">
+                <div class="skill-icon">🏗️</div>
+                <h3>DevOps & Homelab</h3>
+                <ul class="skill-list">
+                    <li>Kubernetes</li>
+                    <li>Docker</li>
+                    <li>ArgoCD / GitOps</li>
+                    <li>Grafana / Prometheus</li>
+                    <li>WireGuard VPN</li>
+                    <li>CI/CD Pipelines</li>
+                </ul>
+            </div>
+
+            <div class="skill-group fade-in">
+                <div class="skill-icon">🎯</div>
+                <h3>Solutions Engineering</h3>
+                <ul class="skill-list">
+                    <li>Technical Advisory</li>
+                    <li>PoC Development</li>
+                    <li>Stakeholder Engagement</li>
+                    <li>Power BI</li>
+                    <li>Enterprise Architecture</li>
+                    <li>Pre-Sales / Post-Sales</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== PROJECTS ========== -->
+<section id="projects">
+    <div class="section-inner">
+        <div class="section-label fade-in">Side Projects</div>
+        <h2 class="section-title fade-in">What I Build After Hours</h2>
+        <p class="section-desc fade-in">Personal projects that keep my technical skills sharp and demonstrate a passion for building real products from scratch.</p>
+
+        <div class="projects-grid">
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-type">iOS App</div>
+                    <h3>Forge — Workout Tracker</h3>
+                </div>
+                <div class="project-body">
+                    <p>
+                        A strength training app built for progressive overload. Features workout logging, personal record tracking, animated UI interactions, and data persistence with SwiftData. Published to the Apple App Store.
+                    </p>
+                    <div class="project-tech">
+                        <span>Swift</span>
+                        <span>SwiftUI</span>
+                        <span>SwiftData</span>
+                        <span>App Store</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-type">iOS App</div>
+                    <h3>Aura — Daily Habits</h3>
+                </div>
+                <div class="project-body">
+                    <p>
+                        A daily habits tracking app designed to help users build consistent routines. Clean, intuitive interface with streak tracking, reminders, and progress visualization.
+                    </p>
+                    <div class="project-tech">
+                        <span>Swift</span>
+                        <span>SwiftUI</span>
+                        <span>SwiftData</span>
+                        <span>AdMob</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-type">Web Application</div>
+                    <h3>AI Job Search Agent</h3>
+                </div>
+                <div class="project-body">
+                    <p>
+                        A full-stack automation platform that scrapes job boards, scores postings against my profile using Claude's API, and generates tailored application materials. Orchestrates multi-step workflows including automated form filling with Selenium.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Claude API</span>
+                        <span>Selenium</span>
+                        <span>REST APIs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-type">Infrastructure</div>
+                    <h3>Kubernetes Homelab</h3>
+                </div>
+                <div class="project-body">
+                    <p>
+                        A personal Kubernetes cluster running containerized services including Home Assistant, WireGuard VPN, Scrypted, and more. Full monitoring stack with Grafana and Prometheus. GitOps workflow managed through ArgoCD.
+                    </p>
+                    <div class="project-tech">
+                        <span>Kubernetes</span>
+                        <span>Grafana</span>
+                        <span>Prometheus</span>
+                        <span>ArgoCD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact">
+    <div class="section-inner">
+        <div class="section-label fade-in">Connect</div>
+        <h2 class="section-title fade-in">Let's Talk</h2>
+        <p class="section-desc fade-in">I'm currently exploring Solutions Engineering, Technical Strategy, and Solutions Architect opportunities. Always happy to connect.</p>
+
+        <div class="contact-grid fade-in">
+            <div class="contact-card">
+                <a href="mailto:melmasry@gmail.com">
+                    <span class="contact-icon">✉️</span>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">melmasry@gmail.com</div>
+                </a>
+            </div>
+            <div class="contact-card">
+                <a href="https://linkedin.com/in/michaelelmasry" target="_blank">
+                    <span class="contact-icon">💼</span>
+                    <div class="contact-label">LinkedIn</div>
+                    <div class="contact-value">linkedin.com/in/michaelelmasry</div>
+                </a>
+            </div>
+            <div class="contact-card">
+                <a href="tel:4088066232">
+                    <span class="contact-icon">📞</span>
+                    <div class="contact-label">Phone</div>
+                    <div class="contact-value">(408) 806-6232</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <p>&copy; 2025 Mike Elmasry. San Ramon, California.</p>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu
+    document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Close menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+</script>
+
+</body>
+</html>
